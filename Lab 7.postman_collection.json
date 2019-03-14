@@ -1,0 +1,455 @@
+{
+	"info": {
+		"_postman_id": "abf12865-81e6-4b1d-a596-669b3f818cba",
+		"name": "Lab 7",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Signup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "282e2b89-9f81-4e8f-a5e7-f2e2caab2fd1",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"user\", jsonData.id)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "848e266b-31e0-4269-9dae-84c4ea9dd269",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"task1_id\", jsonData.id)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"name\": \"{{task1_name}}\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/{{user}}/tasks",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{user}}",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a task Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "848e266b-31e0-4269-9dae-84c4ea9dd269",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"task1_id\", jsonData.id)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"name\": \"{{task1_name}}\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/{{user}}/tasks",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{user}}",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get created task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a8122588-a095-4adf-8799-3dfa828ca8dd",
+						"exec": [
+							"pm.test(\"it should have task id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.tasks[0].id).to.eql(pm.environment.get(\"task1_id\"));",
+							"});",
+							"",
+							"pm.test(\"it should have task name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.tasks[0].name).to.eql(pm.environment.get(\"task1_name\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/{{user}}/tasks",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{user}}",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "848e266b-31e0-4269-9dae-84c4ea9dd269",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Task should have new name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(pm.environment.get(\"task1_newName\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"name\": \"{{task1_newName}}\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/{{user}}/tasks/{{task1_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{user}}",
+						"tasks",
+						"{{task1_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "37293bb9-f1f1-4400-a5b8-63aee8040a68",
+						"exec": [
+							"pm.test(\"Successful request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201,202, 204]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/{{user}}/tasks/{{task1_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{user}}",
+						"tasks",
+						"{{task1_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get tasks (should be empty)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a8122588-a095-4adf-8799-3dfa828ca8dd",
+						"exec": [
+							"pm.test(\"it should be empty\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.tasks.length).to.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/{{user}}/tasks",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{user}}",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a task Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "848e266b-31e0-4269-9dae-84c4ea9dd269",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"task1_id\", jsonData.id)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"name\": \"{{task1_name}}\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/{{user}}/tasks",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{user}}",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a task Copy Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "848e266b-31e0-4269-9dae-84c4ea9dd269",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"task1_id\", jsonData.id)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"name\": \"{{task1_name}}\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/{{user}}/tasks",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{user}}",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get created tasks (should have 2)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a8122588-a095-4adf-8799-3dfa828ca8dd",
+						"exec": [
+							"pm.test(\"it should have two tasks\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.tasks.length).to.eql(2);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/{{user}}/tasks",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{user}}",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
