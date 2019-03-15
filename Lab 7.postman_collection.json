@@ -91,7 +91,7 @@
 			"response": []
 		},
 		{
-			"name": "Create a task Copy",
+			"name": "Create other task",
 			"event": [
 				{
 					"listen": "test",
@@ -414,7 +414,7 @@
 			"response": []
 		},
 		{
-			"name": "Get created tasks (should have 2)",
+			"name": "Get created tasks (should have 3)",
 			"event": [
 				{
 					"listen": "test",
